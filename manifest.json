@@ -11,7 +11,8 @@
         "32": "images/logo_32.png",
         "48": "images/logo_64.png",
         "128": "images/logo_128.png"
-      }
+      },
+      "show_matches": ["*://mail.google.com/*"]
     },
     "icons": {
         "16": "images/logo_16.png",
@@ -25,7 +26,10 @@
       "js": [ "js/content.js" ]
     }
   ],
-  
+  "background": {
+    "scripts": ["js/background.js"],
+    "persistent": false
+  },
   "web_accessible_resources": [
     "js/jquery-1.10.2.min.js",
     "js/gmail.js",
