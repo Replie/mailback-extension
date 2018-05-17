@@ -1,0 +1,17 @@
+{
+  "name": "MailBack",
+  "version": "0.1",
+  "description": "Hello World Gmail chrome extension",
+  "content_scripts": [
+    {
+      "matches": ["*://mail.google.com/*"],
+      "js": [ "js/content.js" ]
+    }
+  ],
+  "web_accessible_resources": [
+    "js/jquery-1.10.2.min.js",
+    "js/gmail.js",
+    "js/main.js"
+  ],
+  "manifest_version": 2
+}
