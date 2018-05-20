@@ -1,47 +1,30 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <!-- Only for optionsV2 pages -->
-    <base target="_blank">
-    <meta charset="utf-8">
-    <title>CRX Viewer options</title>
-    <style>
-        body {
-            margin: 2em 3em;
-        }
-        
-        label {
-            display: block;
-            margin: 1em 0;
-            ;
-            line-height: 150%;
-        }
-        
-        footer {
-            border-top: 1px solid #CCC;
-            padding: 1rem 0;
-            text-align: center;
-        }
-    </style>
 </head>
+<title>MailBack</title>
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/popper.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+
 <body>
-    <label>
-    <input type="checkbox" id="hasAccessToAllURLs">
-    Allow access to all URLs.<br>
-    This option allows the extension to detect Chrome and Opera extensions outside the Chrome Web store.
-    This option is also required for viewing the source code of Firefox addons.
-</label>
-    <label>
-    <input type="checkbox" id="contextmenu">
-    Add a "View linked extension source" context menu item to Chrome extension and Firefox addon links.
-</label>
-    <label>
-    <a href="crxviewer.html">Open Viewer</a> - select a CRX / NEX / XPI / ZIP file to view its contents.
-</label>
-    <footer>
-        &copy; 2013 - 2016 Rob Wu &lt;rob@robwu.nl&gt; &bull; <a href="https://github.com/Rob--W/crxviewer">Source code on Github</a> &bull; <a href="https://chrome.google.com/webstore/detail/chrome-extension-source-v/jifpbeccnghkjeaalbbjmodiffmgedin">Chrome Web Store listing</a> &bull; <a href="https://addons.opera.com/en/extensions/details/extension-source-viewer/">Opera addon listing</a> &bull; <a href="https://addons.mozilla.org/firefox/addon/crxviewer/">Firefox addon listing</a>
-    </footer>
-    <script src="storage-sync-polyfill.js"></script>
-    <script src="options.js"></script>
+    <div class="container">
+        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home"
+                aria-selected="true">Home</a>
+            <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile"
+                aria-selected="false">About</a>
+            <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages"
+                aria-selected="false">Prefrences</a>
+        </div>
+        <div class="tab-content" id="v-pills-tabContent">
+            <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">Welcome to MailBack</div>
+            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">...</div>
+            <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">...</div>
+            <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">...</div>
+        </div>
+    </div>
 </body>
+
 </html>
