@@ -32,8 +32,14 @@
   },
   "web_accessible_resources": [
     "js/jquery-1.10.2.min.js",
+    "js/jquery-3.2.1.min.js",
     "js/gmail.js",
-    "js/main.js"
+    "images/logo_16.png",
+    "js/main.js",
+    "css/main.css",
+    "js/popper.js",
+    "js/bootstrap-material-design.min.js",
+    "css/bootstrap-material-design.min.css"
   ],
   "manifest_version": 2
   

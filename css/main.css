@@ -1,0 +1,14 @@
+.mb-button-group {
+    display: inline-block !important;;
+    text-align: center !important;;
+}
+.btn::before {
+   display: inline-block !important;
+   background-image:url('chrome-extension://__MSG_@@extension_id__/images/logo_16.png') !important;
+   text-align: center !important;
+}
+.mb-button {
+    display: inline-block !important;
+    text-align: center !important;
+    margin-left: 10px !important;
+}
