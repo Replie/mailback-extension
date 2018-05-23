@@ -1,7 +1,7 @@
 'use strict'
 var gmail;
 var suggestions = [];
-var predict_url = 'http://193.106.55.110:8080/_predict'
+var predict_url = 'https://mb-analytics.site/_predict'
 
 function refresh(f) {
   if ((/in/.test(document.readyState)) || (typeof Gmail === undefined)) {
