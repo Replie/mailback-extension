@@ -2,7 +2,7 @@
   "name": "MailBack",
   "version": "0.1",
   "description": "MailBack Gmail chrome extension",
-  "permissions": ["activeTab", "declarativeContent", "storage"],
+  "permissions": ["activeTab", "declarativeContent", "storage", "https://mb-analytics.site/_predict"],
   "options_page": "options.html",    
     "page_action": {
       "default_popup": "popup.html",
