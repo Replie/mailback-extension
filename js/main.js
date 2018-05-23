@@ -16,17 +16,37 @@ var main = function () {
   // NOTE: Always use the latest version of gmail.js from
   gmail = new Gmail();
   console.log('MailBack is of for: ', gmail.get.user_email())
-  $.post(predict_url, {
-    seq_str: btoa("input_sentence"),
-  })
-    .done(function (msg) {
+  $.ajax({
+    url: predict_url,
+    type: 'post',
+    data: { seq_str: btoa("input_sentence") },
+    headers: {
+        "Content-Type": "application/json"
+    },
+    dataType: 'json',
+    success: function (data){
       console.log("Go predictions")
       suggestions = msg.data.results;
-    })
-    .fail(function (xhr, status, error) {
+    },
+    error: function (data){
       console.log("Failed To predict, status: " + status + " Error: " + error)
-      suggestions = ["Ok, i'm on it.", "Sorry No can Do.", "Sure, Thank's"];
+      suggestions = ["Ok, i'm on it.", "Sorry No can Do.", "Sure, Thank's"];  
+    }
+
     });
+
+
+  // $.ajax({url:predict_url, {
+  //   seq_str: btoa("input_sentence"),
+  // })
+  //   .done(function (msg) {
+  //     console.log("Go predictions")
+  //     suggestions = msg.data.results;
+  //   })
+  //   .fail(function (xhr, status, error) {
+  //     console.log("Failed To predict, status: " + status + " Error: " + error)
+  //     suggestions = ["Ok, i'm on it.", "Sorry No can Do.", "Sure, Thank's"];
+  //   });
 
   gmail.observe.on("compose", function (compose, type) {
     if (type === 'reply') {
