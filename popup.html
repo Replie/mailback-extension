@@ -5,32 +5,81 @@
 <script src="js/jquery-3.2.1.min.js"></script>
 <script src="js/popper.js"></script>
 <script src="js/bootstrap.min.js"></script>
+<script src="js/popup.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="css/popup.css">
 </head>
 
 <body>
   <div class="container">
-  <div class="row">
-    <div class="col-4">
-      <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-        <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home"
-          aria-selected="true">Home</a>
-        <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile"
-          aria-selected="false">Prefrences</a>
-        <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages"
-          aria-selected="false">About</a>
+    <div class="row">
+      <div class="col-4">
+        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+          <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home"
+            aria-selected="true">Home</a>
+          <a class="nav-link" id="v-pills-prefrences-tab" data-toggle="pill" href="#v-pills-prefrences" role="tab" aria-controls="v-pills-profile"
+            aria-selected="false">Prefrences</a>
+          <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages"
+            aria-selected="false">About</a>
+        </div>
       </div>
-    </div>
-    <div class="col-6">
-      <div class="tab-content" id="v-pills-tabContent">
-        <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">Welcome to MailBack</div>
-        <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">Prefrences</div>
-        <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">MailBack v0.0.1</div>
+      <div class="col-6">
+        <div class="tab-content" id="v-pills-tabContent">
+          <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">Welcome to MailBack
+            <div class="section" id="setup">
+              <table id="props">
+                <tr>
+                  <th>Date</th>
+                  <td id="date_st"></td>
+                </tr>
+                <tr>
+                  <th>Epoch</th>
+                  <td id="epoch_st" ></td>
+                </tr>
+                <tr>
+                  <th>Step</th>
+                  <td id="step_st"></td>
+                </tr>
+              </table>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="v-pills-prefrences" role="tabpanel" aria-labelledby="v-pills-profile-tab">Prefrences
+            <div class="section">
+              <form id="predict" action="">
+                <div id="checkpoints" class="dropdown">
+                  <button id="checkpoint_val" class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+                    Checkpoints
+                  </button>
+                  <div id="checkpoints_list" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+                  </div>
+                </div>
+                <div id="epochs" class="dropdown">
+                  <button id="epochs_val" class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+                    Epochs
+                  </button>
+                  <div id="epochs_list" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  </div>
+                </div>
+                <div id="steps" class="dropdown">
+                  <button id="steps_val" class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+                    Steps
+                  </button>
+                  <div id="steps_list" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  </div>
+                </div>
+                <button id="submit" type="submit" class="btn btn-primary" disabled>Save</button>
+              </form>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">MailBack v0.0.1</div>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </body>
 
 </html>
