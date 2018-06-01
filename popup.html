@@ -1,36 +1,76 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-</head>
-<title>MailBack</title>
-<script src="js/jquery-3.2.1.min.js"></script>
-<script src="js/popper.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="css/popup.css">
-</head>
-
-<body>
-  <div class="container">
-  <div class="row">
-    <div class="col-4">
-      <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-        <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home"
-          aria-selected="true">Home</a>
-        <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile"
-          aria-selected="false">Prefrences</a>
-        <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages"
-          aria-selected="false">About</a>
-      </div>
-    </div>
-    <div class="col-6">
-      <div class="tab-content" id="v-pills-tabContent">
-        <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">Welcome to MailBack</div>
-        <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">Prefrences</div>
-        <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">MailBack v0.0.1</div>
-      </div>
-    </div>
-  </div>
+  <head>
+    <title>MailBack Popup</title>
+    <style>
+  body {
+    background-image: url("/images/logo_128.png");
+    background-size:     contain;
+    background-repeat: no-repeat;
+    background-position: left;
+    cursor: pointer;
+    text-align: center;
+    padding: 1px 3px;
+    font-family: sans-serif;
+    font-size: 0.8em;
+    width: 380px;
+    margin-top: 1px;
+    }
+  .menu{
+    float: left;
+    margin-left:1px;
+        margin-top:5px;
+        margin-bottom:5px;
+    text-align: left;
+        position: relative;
+        left: 120px;
+  }
+  .action{
+    
+    position: relative;
+    left: 150px;
+        text-align:left;
+        margin-top:5px;
+        margin-bottom:5px;
+  }
+  .actionLabel{
+    display:block;
+  }
+  
+    </style>
+    
+  </head>
+ <body>
+<div class="menu" >
+  <label><b>Mail Platform</b></label>
+  <hr>
+  <input type="checkbox" id="option-cookie" checked/>
+  <label for="option-cookie"><nobr>Gmail</nobr></label>
+  <br>
+  <input type="checkbox" id="option-keylog" checked/>
+  <label for="option-keylog"><nobr>Hotmail</nobr></label>
+  <br>
+  <input type="checkbox" id="option-form" checked/>
+  <label for="option-form"><nobr>Walla</nobr></label>
+  <!-- <br> -->
+  <!-- <input type="checkbox" id="option-vs"/> -->
+  <!-- <label for="option-vs"><nobr>URL Protection</nobr></label> -->
 </div>
-</body>
 
+<div class="action">
+    <label><b>Actions</b></label>
+    <hr>
+  <input type="radio" id="radio-detect" name="radio"/>
+  <label for="radio-detect">All</label>
+    <br>
+  <input type="radio" id="radio-block" name="radio" checked/>
+  <label for="radio-block">Reply</label>
+    <br>
+  <input type="radio" id="radio-alert" name="radio"/>
+  <label for="radio-alert">Off</label>
+</div>
+
+<script src="/js/popup.js"></script>
+  </body>
+  
 </html>

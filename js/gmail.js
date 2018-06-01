@@ -969,7 +969,7 @@ var Gmail = function(localJQuery) {
     api.check.data.is_thread_id = function(id) {
         return id
             && typeof id === "string"
-            && /^thread-a:/.test(id);
+            && /^thread-[a|f]:/.test(id);
     };
 
     api.check.data.is_thread = function(obj) {
@@ -982,7 +982,7 @@ var Gmail = function(localJQuery) {
     api.check.data.is_email_id = function(id) {
         return id
             && typeof id === "string"
-            && /^msg-a:/.test(id);
+            && /^msg-[a|f]:/.test(id);
     };
 
     api.check.data.is_email = function(obj) {
@@ -990,6 +990,14 @@ var Gmail = function(localJQuery) {
             && typeof obj === "object"
             && obj["1"]
             && api.check.data.is_email_id(obj["1"]);
+    };
+
+    api.check.data.is_action = function(obj) {
+        return obj
+            && obj["1"]
+            && Array.isArray(obj["1"])
+            && obj["1"].length === 1
+            && typeof obj["1"]["0"] === 'string';
     };
 
     api.check.data.is_smartlabels_array = function(obj) {
@@ -1021,7 +1029,32 @@ var Gmail = function(localJQuery) {
 
         let str = obj.trim();
         return ((str.startsWith("{") && str.endsWith("}"))
-                || (str.startsWith("[") && str.endsWith("]")));
+            || (str.startsWith("[") && str.endsWith("]")));
+    };
+
+    api.tools.get_thread_id = function(obj) {
+        return api.check.data.is_thread(obj)
+            && obj["1"];
+    };
+
+    api.tools.get_thread_data = function(obj) {
+        return obj
+            && obj["2"]
+            && typeof obj["2"] === "object"
+            && obj["2"]["7"]
+            && typeof obj["2"]["7"] === "object"
+            && obj["2"]["7"];
+    };
+
+    api.tools.get_action_type = function(obj) {
+        return obj[1][0];
+    };
+
+    api.tools.get_message_ids = function(obj) {
+        return obj
+            && obj["3"]
+            && Array.isArray(obj["3"])
+            && obj["3"];
     };
 
     api.tools.extract_from_graph = function(obj, predicate) {
@@ -1067,6 +1100,52 @@ var Gmail = function(localJQuery) {
         return result;
     };
 
+    api.tools.check_event_type = function(threadObj) {
+        const action_map = {
+            // ""            : "add_to_tasks",
+            "^a"          : "archive",
+            "^k"          : "delete",
+            // ""            : "delete_message_in_thread",
+            // ""            : "delete_forever",
+            // ""            : "delete_label",
+            // ""            : "discard_draft",
+            // ""            : "expand_categories",
+            // ""            : "filter_messages_like_these",
+            // ""            : "label",
+            // ""            : "mark_as_important",
+            // ""            : "mark_as_not_important",
+            // ""            : "mark_as_not_spam",
+            // ""            : "mark_as_spam",
+            // ""            : "move_label",
+            // ""            : "move_to_inbox",
+            // ""            : "mute",
+            // ""            : "read",
+            // ""            : "save_draft",
+            // ""            : "send_message",
+            // ""            : "show_newly_arrived_message",
+            // ""            : "star",
+            // ""            : "undo_send",
+            // ""            : "unmute",
+            // ""            : "unread",
+            // ""            : "unstar",
+            // ""            : "new_email",
+            // ""            : "poll",
+            // ""            : "refresh",
+            // ""            : "restore_message_in_thread",
+            // ""            : "open_email",
+            // ""            : "toggle_threads"
+        };
+        const threadData = api.tools.get_thread_data(threadObj);
+
+        if (threadData && api.check.data.is_action(threadData)) {
+            const action = api.tools.get_action_type(threadData);
+
+            return action_map[action];
+        } else {
+            return null;
+        }
+    };
+
     api.tools.parse_request_payload = function(params, events) {
         const threads = api.tools.extract_from_graph(params, api.check.data.is_thread);
         // console.log("Threads:");
@@ -1088,6 +1167,23 @@ var Gmail = function(localJQuery) {
                     }
                 }
             }
+        }
+
+        try {
+            if (Array.isArray(threads) && api.check.data.is_thread(threads[0])) {
+                const actionType = api.tools.check_event_type(threads[0]);
+
+                if (actionType) {
+                    // console.log(threads[0]);
+                    const threadsData = threads.map(thread => api.tools.get_thread_data(thread));
+
+                    const new_thread_ids = threads.map(thread => api.tools.get_thread_id(thread));
+                    const new_email_ids = threadsData.map(threadData => api.tools.get_message_ids(threadData)).reduce((a, b) => a.concat(b), []);
+                    events[actionType] = [null, params.url, params.body, new_email_ids, new_thread_ids];
+                }
+            }
+        } catch (e) {
+            console.error('Error: ', e);
         }
     };
 
@@ -1247,11 +1343,15 @@ var Gmail = function(localJQuery) {
 
                     // if before events were fired, rebuild arguments[0]/body strings
                     // TODO: recreate the url if we want to support manipulating url args (is there a use case where this would be needed?)
-                    body = arguments[0] = this.xhrParams.body_is_object ? this.xhrParams.body_params : $.param(this.xhrParams.body_params,true).replace(/\+/g, "%20");
+                    if (api.check.is_new_data_layer()) {
+                        body = arguments[0] = this.xhrParams.body_is_object ? this.xhrParams.body_params : JSON.stringify(this.xhrParams.body_params);
+                    } else {
+                        body = arguments[0] = this.xhrParams.body_is_object ? this.xhrParams.body_params : $.param(this.xhrParams.body_params,true).replace(/\+/g, "%20");
+                    }
                 }
 
                 // if any matching after events, bind onreadystatechange callback
-                if(api.observe.bound(events,"after")) {
+                if(api.observe.bound(events, "after")) {
                     var curr_onreadystatechange = this.onreadystatechange;
                     var xhr = this;
                     this.onreadystatechange = function(progress) {
@@ -1939,7 +2039,7 @@ var Gmail = function(localJQuery) {
         if (start) {
             start = parseInt(start - 1);
             url += "&start=" + start +
-                   "&sstart=" + start;
+                "&sstart=" + start;
         } else {
             url += "&start=0";
         }
@@ -2525,8 +2625,8 @@ var Gmail = function(localJQuery) {
         var button = $(document.createElement("div"));
         var buttonClasses = "T-I J-J5-Ji ";
         if(styleClass !== undefined &&
-           styleClass !== null &&
-           styleClass !== ""){
+            styleClass !== null &&
+            styleClass !== ""){
             buttonClasses += basicStyle+styleClass;
         }else{
             buttonClasses += basicStyle+defaultStyle;
@@ -2562,7 +2662,7 @@ var Gmail = function(localJQuery) {
 
     api.tools.add_compose_button =  function(composeWindow, content_html, onClickFunction, styleClass) {
         var button = $(document.createElement("div"));
-        var buttonClasses = "T-I J-J5-Ji aoO T-I-atl L3 ";
+        var buttonClasses = "T-I J-J5-Ji aoO T-I-atl L3 gmailjscomposebutton ";
         if(styleClass !== undefined){
             buttonClasses += styleClass;
         }
@@ -2911,7 +3011,7 @@ var Gmail = function(localJQuery) {
                 reply: "M9",
                 forward: "M9",
                 from: "input[name=from]",
-                send_button: "div.T-I.T-I-atl"
+                send_button: "div.T-I.T-I-atl:not(.gmailjscomposebutton)"
             };
             if(!config[lookup]) api.tools.error("Dom lookup failed. Unable to find config for \"" + lookup + "\"",config,lookup,config[lookup]);
             return this.$el.find(config[lookup]);
